@@ -21,11 +21,11 @@ void printList(Node*& list) {
 }
 
 void deleteList(Node*& list) {
-  if (list == nullptr) return;
-  Node* temp = list;
-  list = list->next;
-  delete temp;
-  deleteList(list);
+  if (list != NULL) {
+    deleteList(list->next);
+    delete list;
+    list = nullptr;
+  }
 }
 
 int main(int argc, char* argv[])

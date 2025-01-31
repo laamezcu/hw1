@@ -25,6 +25,128 @@ size_t ULListStr::size() const
 }
 
 // WRITE YOUR CODE HERE
+std::string* ULListStr::getValAtLoc(size_t loc) const
+{
+  if(loc >= size_){
+    return NULL;
+  }
+  Item* temp = head_;
+  size_t count = 0;
+  while(temp != NULL){
+    if(loc < count + temp->last - temp->first){
+      return &(temp->val[loc - count]);
+    }
+    count += temp->last - temp->first;
+    temp = temp->next;
+  }
+  return NULL;
+}
+
+std::string const & ULListStr::back() const
+{
+  if(tail_ == NULL){
+    throw std::out_of_range("Empty list");
+  }
+  return tail_->val[tail_->last - 1];
+}
+
+std::string const & ULListStr::front() const
+{
+  if(head_ == NULL){
+    throw std::out_of_range("Empty list");
+  }
+  return head_->val[head_->first];
+}
+
+void ULListStr::push_back(const std::string& val)
+{
+  if(tail_ == NULL || tail_->last == ARRSIZE){
+    Item* temp = new Item();
+    temp->val[0] = val;
+    temp->first = 0;
+    temp->last = 1;
+    if(tail_ != NULL){
+      tail_->next = temp;
+      temp->prev = tail_;
+    }
+    tail_ = temp;
+    if(head_ == NULL){
+      head_ = temp;
+    }
+  }
+  else{
+    tail_->val[tail_->last] = val;
+    tail_->last++;
+  }
+  size_++;
+}
+
+void ULListStr::push_front(const std::string& val)
+{
+  if(head_ == NULL || head_->first == 0){
+    Item* temp = new Item();
+    temp->val[ARRSIZE - 1] = val;
+    temp->first = ARRSIZE - 1;
+    temp->last = ARRSIZE;
+    if(head_ != NULL){
+      head_->prev = temp;
+      temp->next = head_;
+    }
+    head_ = temp;
+    if(tail_ == NULL){
+      tail_ = temp;
+    }
+  }
+  else{
+    head_->val[head_->first - 1] = val;
+    head_->first--;
+  }
+  size_++;
+}
+
+void ULListStr::pop_back()
+{
+  if(tail_ == NULL){
+    throw std::out_of_range("Empty list");
+  }
+  tail_->last--;
+  if(tail_->last == tail_->first){
+    if(tail_->prev != NULL){
+      Item* temp = tail_->prev;
+      delete tail_;
+      tail_ = temp;
+      tail_->next = NULL;
+    }
+    else{
+      delete tail_;
+      tail_ = NULL;
+      head_ = NULL;
+    }
+  }
+  size_--;
+}
+
+void ULListStr::pop_front()
+{
+  if(head_ == NULL){
+    throw std::out_of_range("Empty list");
+  }
+  head_->first++;
+  if(head_->first == head_->last){
+    if(head_->next != NULL){
+      Item* temp = head_->next;
+      delete head_;
+      head_ = temp;
+      head_->prev = NULL;
+    }
+    else{
+      delete head_;
+      head_ = NULL;
+      tail_ = NULL;
+    }
+  }
+  size_--;
+}
 
 void ULListStr::set(size_t loc, const std::string& val)
 {
