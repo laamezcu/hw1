@@ -34,7 +34,7 @@ std::string* ULListStr::getValAtLoc(size_t loc) const
   size_t count = 0;
   while(temp != NULL){
     if(loc < count + temp->last - temp->first){
-      return &(temp->val[loc - count]);
+      return &(temp->val[temp->first + (loc - count)]);
     }
     count += temp->last - temp->first;
     temp = temp->next;
@@ -65,14 +65,14 @@ void ULListStr::push_back(const std::string& val)
     temp->val[0] = val;
     temp->first = 0;
     temp->last = 1;
+    temp->prev = tail_;
     if(tail_ != NULL){
       tail_->next = temp;
-      temp->prev = tail_;
     }
-    tail_ = temp;
-    if(head_ == NULL){
+    else{
       head_ = temp;
     }
+    tail_ = temp;
   }
   else{
     tail_->val[tail_->last] = val;
@@ -88,18 +88,18 @@ void ULListStr::push_front(const std::string& val)
     temp->val[ARRSIZE - 1] = val;
     temp->first = ARRSIZE - 1;
     temp->last = ARRSIZE;
+    temp->next = head_;
     if(head_ != NULL){
       head_->prev = temp;
-      temp->next = head_;
     }
-    head_ = temp;
-    if(tail_ == NULL){
+    else{
       tail_ = temp;
     }
+    head_ = temp;
   }
   else{
-    head_->val[head_->first - 1] = val;
     head_->first--;
+    head_->val[head_->first] = val;
   }
   size_++;
 }
