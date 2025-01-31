@@ -24,6 +24,7 @@ void deleteList(Node*& list) {
   if (list != NULL) {
     deleteList(list->next);
     delete list;
+    list = nullptr;
   }
 }
 
@@ -50,5 +51,6 @@ int main(int argc, char* argv[])
     }
     deleteList(odds);
     deleteList(evens);
+    deleteList(in);
     return 0;
 }
