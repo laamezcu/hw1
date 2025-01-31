@@ -111,17 +111,15 @@ void ULListStr::pop_back()
   }
   tail_->last--;
   if(tail_->last == tail_->first){
-    if(tail_->prev != NULL){
-      Item* temp = tail_->prev;
-      delete tail_;
-      tail_ = temp;
+    Item* temp = tail_;
+    tail_ = tail_->prev;
+    if(tail_ != NULL){
       tail_->next = NULL;
     }
     else{
-      delete tail_;
-      tail_ = NULL;
       head_ = NULL;
     }
+    delete temp;
   }
   size_--;
 }
@@ -133,17 +131,15 @@ void ULListStr::pop_front()
   }
   head_->first++;
   if(head_->first == head_->last){
-    if(head_->next != NULL){
-      Item* temp = head_->next;
-      delete head_;
-      head_ = temp;
+    Item* temp = head_;
+    head_ = head_->next;
+    if(head_ != NULL){
       head_->prev = NULL;
     }
     else{
-      delete head_;
-      head_ = NULL;
       tail_ = NULL;
     }
+    delete temp;
   }
   size_--;
 }
