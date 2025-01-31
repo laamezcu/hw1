@@ -20,6 +20,13 @@ void printList(Node*& list) {
   }
 }
 
+void deleteList(Node*& list) {
+  if (list != NULL) {
+    deleteList(list->next);
+    delete list;
+  }
+}
+
 int main(int argc, char* argv[])
 {
     Node* five = new Node(5, nullptr);
@@ -41,5 +48,7 @@ int main(int argc, char* argv[])
     if (in == NULL) {
         cout << "in empty" << endl;
     }
+    deleteList(odds);
+    deleteList(evens);
     return 0;
 }
