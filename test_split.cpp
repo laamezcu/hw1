@@ -51,6 +51,5 @@ int main(int argc, char* argv[])
     }
     deleteList(odds);
     deleteList(evens);
-    deleteList(in);
     return 0;
 }
